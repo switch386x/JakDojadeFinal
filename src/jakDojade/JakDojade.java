@@ -52,7 +52,7 @@ public class JakDojade {
         return time;
     }
 
-    protected String getMinAndMax() {
+    protected String getMinAndMaxTransitTimeLane() {
         Lane laneMax = laneList.stream().max(Comparator.comparing(Lane::getSumOfTransitTimes)).get();
         Lane laneMin = laneList.stream().min(Comparator.comparing(Lane::getSumOfTransitTimes)).get();
         System.out.println("Max: " + laneMax);

@@ -130,7 +130,7 @@ public class JakDojadeTest {
 
     @Test
     public void testGetMinAndMax() {
-        assertEquals(jakDojade.getMinAndMax(), sMinMax);
+        assertEquals(jakDojade.getMinAndMaxTransitTimeLane(), sMinMax);
     }
 
     @Test
