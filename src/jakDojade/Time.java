@@ -38,14 +38,6 @@ public class Time implements Comparable<Time> {
         return firstTimeInMinutes - secondTimeInMinutes;
     }
     //menu kontekstowe, source, generate hashcode and equals
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + hour;
-        result = prime * result + minute;
-        return result;
-    }
 
     @Override
     public boolean equals(Object obj) {

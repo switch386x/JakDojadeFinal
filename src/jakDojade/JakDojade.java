@@ -14,12 +14,13 @@ import java.util.stream.Collectors;
 public class JakDojade {
 
     ArrayList<Lane> laneList = new ArrayList<>();
-    //protected - enables accessing from within a package
+
+    // protected - enables accessing from within a package
+    // creation of Lines available for handling
     protected ArrayList<Lane> showLaneInformation(int lane) {
         laneList.stream().filter(e -> e.getLaneNumber() == lane).collect(Collectors.toList()).forEach(Lane::modifiedPrint);
         return laneList;
     }
-    // creation of Lines available for handling
 
     protected Stop getStopWithMaxNumberOfLanes() {
         Map<Stop, Integer> stopCounter = new HashMap<>();
@@ -34,9 +35,9 @@ public class JakDojade {
                 }
             }
         }
-       Stop s = stopCounter.entrySet().stream().max((entry1, entry2) -> entry1.getValue() > entry2.getValue() ? 1 : -1).get().getKey();
-       System.out.println(s);
-       return s;
+        Stop s = stopCounter.entrySet().stream().max((entry1, entry2) -> entry1.getValue() > entry2.getValue() ? 1 : -1).get().getKey();
+        System.out.println(s);
+        return s;
     }
 
     protected void addLane(Lane lane) {
@@ -53,11 +54,11 @@ public class JakDojade {
 
     protected String getMinAndMax() {
         Lane laneMax = laneList.stream().max(Comparator.comparing(Lane::getSumOfTransitTimes)).get();
-        Lane laneMin = laneList.stream().min(Comparator.comparing(Lane::getSumOfTransitTimes)).get();//czemu to nie smiga
+        Lane laneMin = laneList.stream().min(Comparator.comparing(Lane::getSumOfTransitTimes)).get();
         System.out.println("Max: " + laneMax);
         System.out.println("Min: " + laneMin);
         String sMinMax = laneMax.toString() + laneMin.toString();
-        return(sMinMax);
+        return sMinMax;
     }
 
     protected ArrayList<Lane> getAllLanesBetweenStops(Stop stop1, Stop stop2) {
@@ -68,10 +69,10 @@ public class JakDojade {
             }
         }
         System.out.println(lanes);
-        return(lanes);
+        return lanes;
     }
 
-    protected ArrayList<Lane> getAllLanesDeparturingFromParticularStopInTimeRange(Stop stop, Time from, Time to) {
+    protected Map<String, ArrayList<Lane>> getAllLanesDeparturingFromParticularStopInTimeRange(Stop stop, Time from, Time to) {
         ArrayList<Lane> lanes = new ArrayList<>();
         for (Lane lane : laneList) {
             if (lane.getHandledStops().contains(stop)) {
@@ -85,56 +86,29 @@ public class JakDojade {
 
             }
         }
-        System.out.println(lanes);
-        return(lanes);
+
+        ArrayList<Lane> lanesReverse = new ArrayList<>();
+        for (Lane lane : laneList) {
+            if (lane.getHandledStops().contains(stop)) {
+                ArrayList<Time> departureTimes = lane.getDepartureTimesForStopsReverse().get(stop);
+                for (Time time : departureTimes) {
+                    if (time.compareTo(from) >= 0 && time.compareTo(to) <= 0) {
+                        lanesReverse.add(lane);
+                        break;
+                    }
+                }
+
+            }
+        }
+
+        Map<String, ArrayList<Lane>> result = new HashMap<String, ArrayList<Lane>>();
+        result.put("Forward: ", lanes);
+        result.put("Reverse: ", lanesReverse);
+        System.out.println(result);
+        return result;
     }
 
     public static void main(String[] args) {
-
-        ArrayList<Stop> stops = new ArrayList<>();
-        stops.add(Stop.BOROWSKA);
-        stops.add(Stop.BRZOZOWA);
-        stops.add(Stop.KOMANDORSKA);
-
-        ArrayList<Stop> stops2 = new ArrayList<>();
-        stops2.add(Stop.BOROWSKA);
-        stops2.add(Stop.KSIECIA_WITOLDA);
-        stops2.add(Stop.KAMIENNA);
-
-        ArrayList<Time> timesOfDeparture = new ArrayList<>();
-        timesOfDeparture.add(new Time(12, 15));
-        timesOfDeparture.add(new Time(15, 00));
-        timesOfDeparture.add(new Time(16, 30));
-
-        ArrayList<Time> timesOfTransit = new ArrayList<>(); // incrementally modeled time
-        timesOfTransit.add(new Time(00, 00));
-        timesOfTransit.add(new Time(00, 15));
-        timesOfTransit.add(new Time(00, 25));
-
-        ArrayList<Time> timesOfTransit2 = new ArrayList<>(); // incrementally modeled time
-        timesOfTransit2.add(new Time(00, 00));
-        timesOfTransit2.add(new Time(00, 05));
-        timesOfTransit2.add(new Time(00, 10));
-
-        ArrayList<Time> transitKomandorska = new ArrayList<>();
-        transitKomandorska.add(new Time(10, 00));
-        transitKomandorska.add(new Time(16, 00));
-        transitKomandorska.add(new Time(18, 00));
-
-        JakDojade jakDojade = new JakDojade();
-
-        Lane linia1 = new Lane(1, stops, timesOfDeparture, timesOfTransit);
-        Lane linia2 = new Lane(2, stops2, timesOfDeparture, timesOfTransit2);   // obiekty nie wystepuja poza struktura danych - laneList
-
-        jakDojade.addLane(linia1);
-        jakDojade.addLane(linia2);
-
-        jakDojade.showLaneInformation(1);
-        jakDojade.getStopWithMaxNumberOfLanes();
-        jakDojade.getTimeOfTransitBetweenStops(linia1, Stop.BRZOZOWA, Stop.KOMANDORSKA);
-        jakDojade.getMinAndMax();
-        jakDojade.getAllLanesBetweenStops(Stop.BOROWSKA, Stop.KAMIENNA);
-        jakDojade.getAllLanesDeparturingFromParticularStopInTimeRange(Stop.BOROWSKA, new Time(00,00), new Time(24,00));
 
     }
 }

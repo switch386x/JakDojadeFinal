@@ -3,6 +3,8 @@ package jakDojade;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -13,7 +15,8 @@ import org.junit.Test;
  */
 
 public class JakDojadeTest {
-
+    //trening
+    
     public static final Stop BOROWSKA = new Stop("Borowska");
     public static final Stop KAMIENNA = new Stop("Kamienna");
     public static final Stop KOMANDORSKA = new Stop("Komandorska");
@@ -30,7 +33,8 @@ public class JakDojadeTest {
     public static final Time testTimeFrom = new Time(00, 00);
     public static final Time testTimeTo = new Time(24, 00);
 
-    public static ArrayList<Lane> testTimeRangeLanes = new ArrayList<>();
+    public static Map<String, ArrayList<Lane>> testTimeRangeLanes = new HashMap<String, ArrayList<Lane>>();
+    public static ArrayList<Lane> laneListingForTestTimeRange = new ArrayList<>();
     public static ArrayList<Lane> testLanesBetweenStops = new ArrayList<>();
 
     public static JakDojade jakDojade;
@@ -78,16 +82,18 @@ public class JakDojadeTest {
         transitKomandorska.add(new Time(18, 00));
         
 
-        linia1 = new Lane(1, stops, timesOfDeparture, timesOfTransit);
-        linia2 = new Lane(2, stops2, timesOfDeparture, timesOfTransit2); // obiekty nie wystepuja poza struktura danych
+        linia1 = new Lane(1, stops, timesOfDeparture, timesOfDeparture, timesOfTransit);
+        linia2 = new Lane(2, stops2, timesOfDeparture, timesOfDeparture, timesOfTransit2); // obiekty nie wystepuja poza struktura danych
         // ctrl alt dol kopiuje linie
 
         jakDojade = new JakDojade();
         jakDojade.addLane(linia1);
         jakDojade.addLane(linia2);
 
-        testTimeRangeLanes.add(linia1);
-        testTimeRangeLanes.add(linia2);
+        laneListingForTestTimeRange.add(linia1);
+        laneListingForTestTimeRange.add(linia2);
+        testTimeRangeLanes.put("Forward: ", laneListingForTestTimeRange);
+        testTimeRangeLanes.put("Reverse: ", laneListingForTestTimeRange);
 
         testLanesBetweenStops.add(linia2);
         
