@@ -76,6 +76,7 @@ public class JakDojadeTest {
         transitKomandorska.add(new Time(10, 00));
         transitKomandorska.add(new Time(16, 00));
         transitKomandorska.add(new Time(18, 00));
+        
 
         linia1 = new Lane(1, stops, timesOfDeparture, timesOfTransit);
         linia2 = new Lane(2, stops2, timesOfDeparture, timesOfTransit2); // obiekty nie wystepuja poza struktura danych
