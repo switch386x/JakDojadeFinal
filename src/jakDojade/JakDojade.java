@@ -12,6 +12,9 @@ import java.util.stream.Collectors;
  */
 
 public class JakDojade {
+    
+    //zly model, niereuzywalny, zle zaprojektowany, generalnie do dupy. review robione przez rozne osoby ? jak to ugryzc kazdy chce mi narzucic swoja metodologie pracy i wizje
+    // interfejsy  - samo tworzenie modelu
 
     ArrayList<Lane> laneList = new ArrayList<>();
 
